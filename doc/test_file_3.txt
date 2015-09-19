@@ -12,4 +12,8 @@ Colin’s Change.
 >>>>>>> origin/master
 
 hello - CJ
+<<<<<<< HEAD
+>>>>>>> origin/master
+=======
+
 >>>>>>> origin/master
