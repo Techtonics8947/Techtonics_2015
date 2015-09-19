@@ -1,5 +1,15 @@
 333
 
+<<<<<<< HEAD
+hello
+=======
 ello
 
+<<<<<<< HEAD
 hi how you doing?
+=======
+Colin’s Change.
+>>>>>>> origin/master
+
+hello - CJ
+>>>>>>> origin/master
