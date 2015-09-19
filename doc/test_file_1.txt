@@ -3,6 +3,7 @@ Test File 1
 I have more to say.  So I've added more content to test file 1.
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 Someone else added more stuff here.
 
 Caleb changed this
@@ -19,4 +20,10 @@ Someone else added more stuff here. I'm adding more stuff! hehehehe!
 8
 9
 Numbers!!!
+>>>>>>> origin/master
+=======
+Someone else added more stuff here.
+
+Colin changed this.
+
 >>>>>>> origin/master

@@ -1,3 +1,11 @@
 333
 
+<<<<<<< HEAD
 hello
+=======
+ello
+
+Colin’s Change.
+>>>>>>> origin/master
+
+hello - CJ
