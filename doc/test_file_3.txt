@@ -17,7 +17,12 @@ hello - CJ
 =======
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 >>>>>>> origin/master
 =======
 I HATE EVERYONE!
+>>>>>>> origin/master
+=======
+I HATE EVERYONE!
+jk - cjs
 >>>>>>> origin/master
