@@ -67,7 +67,6 @@ public class FtcOpModeRegister implements OpModeRegister {
     manager.register ("JonathanTele", JonathanTele.class);
     manager.register ("KinseySwagTele", KinseySwagTele.class);
     manager.register ("TouchTele", TouchTele.class);
-    manager.register ("LineFollowing", LineFollowing.class);
     manager.register ("TestReflectance", TestReflectance.class);
 
     /*

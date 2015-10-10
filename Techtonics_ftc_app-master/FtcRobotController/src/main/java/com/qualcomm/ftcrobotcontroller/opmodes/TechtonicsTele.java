@@ -6,9 +6,8 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 /**
  * Created by colin on 9/28/15.
  */
-public class TechtonicsTele extends OpMode {
 
-    boolean halfSpeed = true;
+public class TechtonicsTele extends OpMode {
 
     DcMotor leftMotor;
     DcMotor rightMotor;
@@ -28,31 +27,16 @@ public class TechtonicsTele extends OpMode {
     @Override
     public void loop() {
 
-        double leftY = 0;
-        double rightY = 0;
-
-        if (gamepad1.left_stick_button){
-            halfSpeed = true;
-        }
-
-        if (gamepad1.right_stick_button){
-            halfSpeed = false;
-        }
-
-        if (halfSpeed) {
-            leftY = -(gamepad1.left_stick_y / 2);
-            rightY = -(gamepad1.right_stick_y / 2);
-        }
-        else {
-            leftY = -(gamepad1.left_stick_y);
-            rightY = -(gamepad1.right_stick_y);
-        }
+        //Gets the joystick values from the gamepads
+        //Note: Pushing the all the way up returns -1,
+        //So we reversed the values with the "-" before "gamepad1"
+        double leftY = -gamepad1.left_stick_y;
+        double rightY = -gamepad1.right_stick_y;
 
         //Sets the power of the motors with the joystick values
         leftMotor.setPower(leftY);
         rightMotor.setPower(rightY);
 
     }
-
 
 }
