@@ -30,8 +30,13 @@ public class TechtonicsTele extends OpMode {
         //Gets the joystick values from the gamepads
         //Note: Pushing the all the way up returns -1,
         //So we reversed the values with the "-" before "gamepad1"
+
         double leftY = -gamepad1.left_stick_y;
         double rightY = -gamepad1.right_stick_y;
+
+        leftY = -gamepad1.left_stick_y;
+        rightY = -gamepad1.right_stick_y;
+
 
         //Sets the power of the motors with the joystick values
         leftMotor.setPower(leftY);
