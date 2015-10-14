@@ -55,15 +55,16 @@ public class FtcOpModeRegister implements OpModeRegister {
      * If two or more op modes are registered with the same name, the app will display an error.
      */
 
-    manager.register("NullOp", NullOp.class);
+    /*manager.register("NullOp", NullOp.class);
 
     manager.register("K9TeleOp", K9TeleOp.class);
     manager.register ("PushBotAuto", PushBotAuto.class);
     manager.register ("PushBotManual", PushBotManual.class);
-
+    */
 
     //Techtonics Custom OpMode added to registry
     manager.register ("TechtonicsTele", TechtonicsTele.class);
+    manager.register ("TechtonicsHalfspeed", TechtonicsTele_Halfspeed.class);
 
     /*
      * Uncomment any of the following lines if you want to register an op mode.
