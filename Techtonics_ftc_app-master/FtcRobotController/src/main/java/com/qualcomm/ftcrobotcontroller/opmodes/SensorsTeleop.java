@@ -40,7 +40,35 @@ public class SensorsTeleop extends LinearOpMode {
 
         rightMotor.setPower(1.0);
         leftMotor.setPower(1.0);
-        sleep(2200);
+        sleep(2200);                        //4 Feet
+
+        leftMotor.setPower(0);
+        rightMotor.setPower(0);
+
+        rightMotor.setPower(1.0);
+        leftMotor.setPower(0);
+        sleep(500);
+
+        leftMotor.setPower(0);
+        rightMotor.setPower(0);
+
+        rightMotor.setPower(1.0);
+        leftMotor.setPower(1.0);
+        sleep(2200);                        //4 Feet
+
+        leftMotor.setPower(0);
+        rightMotor.setPower(0);
+
+        rightMotor.setPower(1.0);
+        leftMotor.setPower(0);
+        sleep(500);
+
+        leftMotor.setPower(0);
+        rightMotor.setPower(0);
+
+        rightMotor.setPower(1.0);
+        leftMotor.setPower(1.0);
+        sleep(1100);
 
         leftMotor.setPower(0);
         rightMotor.setPower(0);
