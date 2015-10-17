@@ -64,9 +64,10 @@ public class FtcOpModeRegister implements OpModeRegister {
 
     //Techtonics Custom OpMode added to registry
     manager.register ("TechtonicsTele", TechtonicsTele.class);
-    manager.register ("TechtonicsHalfspeed", TechtonicsTele_Halfspeed.class);
     manager.register("SensorsTeleop", SensorsTeleop.class);
     manager.register("Autonomous", Autonomous.class);
+
+
 
     /*
      * Uncomment any of the following lines if you want to register an op mode.
@@ -87,7 +88,6 @@ public class FtcOpModeRegister implements OpModeRegister {
     //manager.register("LinearK9TeleOp", LinearK9TeleOp.class);
     //manager.register("LinearIrExample", LinearIrExample.class);
 
-    
     //manager.register ("PushBotManual1", PushBotManual1.class);
     //manager.register ("PushBotAutoSensors", PushBotAutoSensors.class);
     //manager.register ("PushBotIrEvent", PushBotIrEvent.class);
@@ -100,8 +100,6 @@ public class FtcOpModeRegister implements OpModeRegister {
     //manager.register("PushBotDriveTouch", PushBotDriveTouch.class);
     //manager.register("PushBotIrSeek", PushBotIrSeek.class);
     //manager.register("PushBotSquare", PushBotSquare.class);
-
-    
     
   }
 }
