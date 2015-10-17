@@ -65,6 +65,8 @@ public class FtcOpModeRegister implements OpModeRegister {
     //Techtonics Custom OpMode added to registry
     manager.register ("TechtonicsTele", TechtonicsTele.class);
     manager.register ("TechtonicsHalfspeed", TechtonicsTele_Halfspeed.class);
+    manager.register("SensorsTeleop", SensorsTeleop.class);
+    manager.register("Autonomous", Autonomous.class);
 
     /*
      * Uncomment any of the following lines if you want to register an op mode.
