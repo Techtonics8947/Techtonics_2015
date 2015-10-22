@@ -45,6 +45,7 @@ public class FtcOpModeRegister implements OpModeRegister {
    *
    * @param manager op mode manager
    */
+
   public void register(OpModeManager manager) {
 
     /*
@@ -66,8 +67,10 @@ public class FtcOpModeRegister implements OpModeRegister {
     manager.register ("TechtonicsTele", TechtonicsTele.class);
     manager.register("SensorsTeleop", SensorsTeleop.class);
     manager.register("Autonomous", Autonomous.class);
-
-
+    manager.register("LineFollowing", LineFollowing.class);
+    manager.register("TestReflectance", TestReflectance.class);
+    manager.register("TestColor", TestColor.class);
+    manager.register("Color Sensor", colorSensor.class);
 
     /*
      * Uncomment any of the following lines if you want to register an op mode.

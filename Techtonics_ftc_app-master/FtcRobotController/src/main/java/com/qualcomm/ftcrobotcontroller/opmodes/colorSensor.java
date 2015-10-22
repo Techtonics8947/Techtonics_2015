@@ -1,26 +1,26 @@
 package com.qualcomm.ftcrobotcontroller.opmodes;
 
+import android.graphics.Color;
+import android.text.method.Touch;
+
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.OpticalDistanceSensor;
 import com.qualcomm.robotcore.hardware.TouchSensor;
 
 /**
- * Created by Jonathan Saju on 10/17/15.
+ * Created by colin on 10/21/15.
  */
-
-public class LineFollowing extends OpMode {
+public class colorSensor extends OpMode {
 
     DcMotor leftMotor;
     DcMotor rightMotor;
-    OpticalDistanceSensor opticalDistanceSensor;
     TouchSensor touchSensor;
-
-    double floorReflectance = 0.0;
-    double lineReflectance = 0.0;
+    ColorSensor colorSensor;
     int touchMode = 0;
-    boolean drive = false;
+    double lineColor;
+    double floorColor;
+    boolean drive;
 
     @Override
     public void init(){
@@ -28,10 +28,11 @@ public class LineFollowing extends OpMode {
         leftMotor = hardwareMap.dcMotor.get("left_drive");
         rightMotor = hardwareMap.dcMotor.get("right_drive");
 
-        leftMotor.setDirection(DcMotor.Direction.REVERSE);
-
-        opticalDistanceSensor = hardwareMap.opticalDistanceSensor.get("sensor_ODS");
+        colorSensor = hardwareMap.colorSensor.get("sensor_color");
         touchSensor = hardwareMap.touchSensor.get("sensor_touch");
+
+
+        leftMotor.setDirection(DcMotor.Direction.REVERSE);
 
     }
 
@@ -40,7 +41,7 @@ public class LineFollowing extends OpMode {
 
         if (touchMode == 0){
 
-            telemetry.addData("Set the floor reflectance", null);
+            telemetry.addData("Set the floor color", null);
 
         }
         if (touchMode == 1){
@@ -53,7 +54,9 @@ public class LineFollowing extends OpMode {
 
             touchMode = 1;
 
-            floorReflectance = opticalDistanceSensor.getLightDetected();
+            floorColor = colorSensor.red();
+
+            telemetry.addData("Floor Color", floorColor);
 
         }
 
@@ -63,9 +66,9 @@ public class LineFollowing extends OpMode {
 
             touchMode = 2;
 
-            lineReflectance = opticalDistanceSensor.getLightDetected();
+            lineColor = colorSensor.red();
 
-            telemetry.addData("Line Reflectance", lineReflectance);
+            telemetry.addData("Line Color", lineColor);
 
             drive = true;
 
@@ -73,15 +76,15 @@ public class LineFollowing extends OpMode {
 
         while (drive = true){
 
-            double reflectance = opticalDistanceSensor.getLightDetected();
+            double color = colorSensor.red();
 
-            if (reflectance == lineReflectance){
+            if (color == lineColor){
 
                 leftMotor.setPower(0.5);
                 rightMotor.setPower(0.5);
 
             }
-            if (reflectance == floorReflectance){
+            if (color == floorColor){
 
                 leftMotor.setPower(0.0);
                 rightMotor.setPower(0.25);

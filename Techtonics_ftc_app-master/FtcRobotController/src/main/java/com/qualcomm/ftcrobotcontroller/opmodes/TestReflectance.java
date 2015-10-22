@@ -15,7 +15,7 @@ public class TestReflectance extends OpMode {
     public void init(){
 
         //Locates the EOPD (Electro Optical Proximity Detector) from the hardware map
-        opticalDistanceSensor = hardwareMap.opticalDistanceSensor.get("Sensor_ODS");
+        opticalDistanceSensor = hardwareMap.opticalDistanceSensor.get("sensor_ODS");
 
     }
 
