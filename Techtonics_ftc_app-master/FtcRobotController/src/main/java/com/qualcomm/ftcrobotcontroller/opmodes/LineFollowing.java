@@ -7,7 +7,7 @@ import com.qualcomm.robotcore.hardware.OpticalDistanceSensor;
 import com.qualcomm.robotcore.hardware.TouchSensor;
 
 /**
- * Created by Jonathan Saju on 10/17/15.
+ * Created by Colin Santee on 10/17/15.
  */
 
 public class LineFollowing extends OpMode {

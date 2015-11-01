@@ -31,67 +31,20 @@ public class colorSensor extends OpMode {
         colorSensor = hardwareMap.colorSensor.get("sensor_color");
         touchSensor = hardwareMap.touchSensor.get("sensor_touch");
 
-
         leftMotor.setDirection(DcMotor.Direction.REVERSE);
+        colorSensor.enableLed(true);
 
     }
 
     @Override
     public void loop(){
-
-        if (touchMode == 0){
-
-            telemetry.addData("Set the floor color", null);
-
-        }
-        if (touchMode == 1){
-
-            telemetry.addData("Set the line reflectance", null);
-
-        }
-
-        if (touchSensor.isPressed() && touchMode == 0){
-
-            touchMode = 1;
-
-            floorColor = colorSensor.red();
-
-            telemetry.addData("Floor Color", floorColor);
-
-        }
+        colorSensor.enableLed(true);
+        int red = colorSensor.red();
+        telemetry.addData("The red is", red);
 
 
-
-        if (touchSensor.isPressed() && touchMode == 1){
-
-            touchMode = 2;
-
-            lineColor = colorSensor.red();
-
-            telemetry.addData("Line Color", lineColor);
-
-            drive = true;
-
-        }
-
-        while (drive = true){
-
-            double color = colorSensor.red();
-
-            if (color == lineColor){
-
-                leftMotor.setPower(0.5);
-                rightMotor.setPower(0.5);
-
-            }
-            if (color == floorColor){
-
-                leftMotor.setPower(0.0);
-                rightMotor.setPower(0.25);
-
-            }
-
-        }
+        int blue = colorSensor.blue();
+        telemetry.addData("The blue is", blue);
 
     }
 
