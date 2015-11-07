@@ -73,11 +73,7 @@ public class FtcOpModeRegister implements OpModeRegister {
     /*manager.register("TestReflectance", TestReflectance.class);
     manager.register("TestColor", TestColor.class);
     manager.register("Color Sensor", colorSensor.class);
-<<<<<<< Updated upstream
-    */
-=======
     manager.register("Swag_Program_2k15", Swag_Program_2k15.class);
->>>>>>> Stashed changes
 
     /*
      * Uncomment any of the following lines if you want to register an op mode.
