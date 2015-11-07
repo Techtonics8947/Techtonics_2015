@@ -2,6 +2,7 @@ package com.qualcomm.ftcrobotcontroller.opmodes;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.Servo;
 
 /**
  * Created by Colin on 9/28/15.
@@ -14,28 +15,21 @@ public class TechtonicsTele extends OpMode {
 
     @Override
     public void init() {
-
+        locateMotors();
     }
 
     @Override
     public void loop() {
-
+        updateMotors();
     }
 
     public void locateMotors(){
-        //Gets the joystick values from the gamepads
-        //Note: Pushing the all the way up returns -1,
-        //So we reversed the values with the "-" before "gamepad1"
 
-        double leftY = -gamepad1.left_stick_y;
-        double rightY = -gamepad1.right_stick_y;
+        leftMotor = hardwareMap.dcMotor.get("left_drive");
+        rightMotor = hardwareMap.dcMotor.get("right_drive");
 
-        leftY = -gamepad1.left_stick_y;
-        rightY = -gamepad1.right_stick_y;
+        leftMotor.setDirection(DcMotor.Direction.REVERSE);
 
-        //Sets the power of the motors with the joystick values
-        leftMotor.setPower(leftY);
-        rightMotor.setPower(rightY);
     }
 
     public void updateMotors(){

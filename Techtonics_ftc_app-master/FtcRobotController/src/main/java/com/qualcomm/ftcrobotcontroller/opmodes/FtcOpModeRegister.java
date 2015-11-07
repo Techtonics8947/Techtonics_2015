@@ -68,9 +68,12 @@ public class FtcOpModeRegister implements OpModeRegister {
     manager.register("SensorsTeleop", SensorsTeleop.class);
     manager.register("Autonomous", Autonomous.class);
     manager.register("LineFollowing", LineFollowing.class);
-    manager.register("TestReflectance", TestReflectance.class);
+    manager.register("BucketDoor", BucketDoor.class);
+
+    /*manager.register("TestReflectance", TestReflectance.class);
     manager.register("TestColor", TestColor.class);
     manager.register("Color Sensor", colorSensor.class);
+    */
 
     /*
      * Uncomment any of the following lines if you want to register an op mode.
