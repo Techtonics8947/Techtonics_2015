@@ -65,10 +65,13 @@ public class FtcOpModeRegister implements OpModeRegister {
 
     //Techtonics Custom OpMode added to registry
     manager.register ("TechtonicsTele", TechtonicsTele.class);
-    manager.register("SensorsTeleop", SensorsTeleop.class);
+    //manager.register("SensorsTeleop", SensorsTeleop.class);
     manager.register("Autonomous", Autonomous.class);
-    manager.register("LineFollowing", LineFollowing.class);
-    manager.register("BucketDoor", BucketDoor.class);
+    manager.register("ScrimmageAuto", ScrimmageAuto.class);
+    manager.register("Encoders", EncoderAutonomous.class);
+    //manager.register("LineFollowing", LineFollowing.class);
+    //manager.register("BucketDoor", BucketDoor.class);
+    manager.register("Scrimmage", ScrimmageTele.class);
 
     /*manager.register("TestReflectance", TestReflectance.class);
     manager.register("TestColor", TestColor.class);
@@ -109,3 +112,4 @@ public class FtcOpModeRegister implements OpModeRegister {
     
   }
 }
+

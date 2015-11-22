@@ -3,6 +3,7 @@ package com.qualcomm.ftcrobotcontroller.opmodes;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorController;
 import com.qualcomm.robotcore.hardware.Servo;
 
 /**
@@ -12,9 +13,10 @@ public class Autonomous extends LinearOpMode{
 
     DcMotor rightMotor;
     DcMotor leftMotor;
-    ColorSensor colorSensor;
-    Servo buttonServo;
-    Servo climberServo;
+
+    //ColorSensor colorSensor;
+    //Servo buttonServo;
+    //Servo climberServo;
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -22,9 +24,9 @@ public class Autonomous extends LinearOpMode{
         //Init (Locates Devices)
         leftMotor = hardwareMap.dcMotor.get("left_drive");
         rightMotor = hardwareMap.dcMotor.get("right_drive");
-        colorSensor = hardwareMap.colorSensor.get("sensor_color");
-        buttonServo = hardwareMap.servo.get("servo_button");
-        climberServo = hardwareMap.servo.get("servo_climber");
+        //colorSensor = hardwareMap.colorSensor.get("sensor_color");
+        //buttonServo = hardwareMap.servo.get("servo_button");
+        //climberServo = hardwareMap.servo.get("servo_climber");
 
         //Reverses the direction of the left motor
         leftMotor.setDirection(DcMotor.Direction.REVERSE);
@@ -58,7 +60,7 @@ public class Autonomous extends LinearOpMode{
 
         leftMotor.setPowerFloat();
         rightMotor.setPowerFloat();
-
+/*
         //Dumps the climber into the bucket
         climberServo.setPosition(50);
 
@@ -68,7 +70,7 @@ public class Autonomous extends LinearOpMode{
         }
         else{
             buttonServo.setPosition(50);
-        }
+        } */
 
     }
 }
