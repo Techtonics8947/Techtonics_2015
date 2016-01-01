@@ -1,14 +1,13 @@
 package com.qualcomm.ftcrobotcontroller.opmodes;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.hardware.ColorSensor;
+
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorController;
-import com.qualcomm.robotcore.hardware.Servo;
 
 /**
  * Created by Colin Santee on 10/14/15.
  */
+
 public class Autonomous extends LinearOpMode{
 
     DcMotor rightMotor;
@@ -60,17 +59,6 @@ public class Autonomous extends LinearOpMode{
 
         leftMotor.setPowerFloat();
         rightMotor.setPowerFloat();
-/*
-        //Dumps the climber into the bucket
-        climberServo.setPosition(50);
-
-        //Detects the color of the Beacon and then determins which button to press
-        if(colorSensor.red() > 100){
-            buttonServo.setPosition(100);
-        }
-        else{
-            buttonServo.setPosition(50);
-        } */
 
     }
 }

@@ -17,9 +17,16 @@ public class ScrimmageTele extends TechtonicsTele {
 
     Servo gripper;
 
+    Servo bucket;
+
+    Servo extAngleLeft;
+    Servo extAngleRight;
+
+    DcMotor extensionLeft;
+    DcMotor extensionRight;
+
     @Override
     public void init(){
-
         locateMotors();
 
         armLeft = hardwareMap.dcMotor.get("arm_left");
@@ -27,14 +34,28 @@ public class ScrimmageTele extends TechtonicsTele {
 
         gripper = hardwareMap.servo.get("servo_gripper");
 
+        bucket = hardwareMap.servo.get("servo_bucket");
+
+        extAngleLeft = hardwareMap.servo.get("angle_left");
+        extAngleRight = hardwareMap.servo.get("angle_right");
+
+        extensionLeft = hardwareMap.dcMotor.get("extension_left");
+        extensionRight = hardwareMap.dcMotor.get("extension_right");
+
         armLeft.setDirection(DcMotor.Direction.REVERSE);
+        extAngleLeft.setDirection(Servo.Direction.REVERSE);
+        bucket.setDirection(Servo.Direction.REVERSE);
+
     }
 
     @Override
     public void loop(){
 
+        telemetry.addData("Time = ", getRuntime());
+
         updateMotors();
 
+        //Flip the arm clockwise or counterclockwise
         if (gamepad1.right_trigger > 0){
             armRight.setPower(0.25);
             armLeft.setPower(0.25);
@@ -50,12 +71,55 @@ public class ScrimmageTele extends TechtonicsTele {
             armLeft.setPower(0);
         }
 
+        //Sets extension motor with gamepad2 left stick
+        if (gamepad2.left_stick_y > 0.25){
+            extensionLeft.setPower(0.75);
+            extensionRight.setPower(0.75);
+        }
+        else if (gamepad2.left_stick_y < -0.25){
+            extensionLeft.setPower(-0.75);
+            extensionRight.setPower(-0.75);
+        }
+        else{
+            extensionLeft.setPower(0.0);
+            extensionRight.setPower(0.0);
+        }
+
+        //Sets the gripper Position
         if (gamepad1.right_bumper){
-            gripper.setPosition(.9);   //Set to open position
+            gripper.setPosition(0.25);      //Set to open position
         }
 
         else if(gamepad1.left_bumper){
-            gripper.setPosition(0);     //Set to closed position
+            gripper.setPosition(0.75);     //Set to closed position
+        }
+        else{
+            gripper.setPosition(0.50);
+        }
+
+        //Sets the angle servos
+        if (gamepad2.right_trigger > 0.1){
+            extAngleLeft.setPosition(1.00);
+            extAngleRight.setPosition(1.00);
+        }
+        else if (gamepad2.right_bumper){
+            extAngleLeft.setPosition(0.00);
+            extAngleRight.setPosition(0.00);
+        }
+        else{
+            extAngleLeft.setPosition(0.50);
+            extAngleRight.setPosition(0.50);
+        }
+
+        //Operates the bucket with the DPad on the second gamepad
+        if(gamepad2.dpad_right){
+            bucket.setPosition(1.0);
+        }
+        else if(gamepad2.dpad_left){
+            bucket.setPosition(0.0);
+        }
+        else{
+            bucket.setPosition(0.5);
         }
 
     }
