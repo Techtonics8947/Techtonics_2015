@@ -71,12 +71,7 @@ public class FtcOpModeRegister implements OpModeRegister {
     //manager.register("Encoders", EncoderAutonomous.class);
     //manager.register("LineFollowing", LineFollowing.class);
     //manager.register("BucketDoor", BucketDoor.class);
-    manager.register("TeleOp", ScrimmageTele.class);
-
-    /*manager.register("TestReflectance", TestReflectance.class);
-    manager.register("TestColor", TestColor.class);
-    manager.register("Color Sensor", colorSensor.class);
-    manager.register("Swag_Program_2k15", Swag_Program_2k15.class);
+    manager.register("TeleOp", TeleOp.class);
 
     /*
      * Uncomment any of the following lines if you want to register an op mode.
