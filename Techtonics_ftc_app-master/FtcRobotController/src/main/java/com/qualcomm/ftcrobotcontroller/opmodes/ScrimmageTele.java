@@ -19,8 +19,8 @@ public class ScrimmageTele extends TechtonicsTele {
 
     Servo bucket;
 
-    Servo extAngleLeft;
-    Servo extAngleRight;
+    DcMotor extAngleLeft;
+    DcMotor extAngleRight;
 
     DcMotor extensionLeft;
     DcMotor extensionRight;
@@ -36,14 +36,14 @@ public class ScrimmageTele extends TechtonicsTele {
 
         bucket = hardwareMap.servo.get("servo_bucket");
 
-        extAngleLeft = hardwareMap.servo.get("angle_left");
-        extAngleRight = hardwareMap.servo.get("angle_right");
+        extAngleLeft = hardwareMap.dcMotor.get("angle_left");
+        extAngleRight = hardwareMap.dcMotor.get("angle_right");
 
         extensionLeft = hardwareMap.dcMotor.get("extension_left");
         extensionRight = hardwareMap.dcMotor.get("extension_right");
 
         armLeft.setDirection(DcMotor.Direction.REVERSE);
-        extAngleLeft.setDirection(Servo.Direction.REVERSE);
+        extAngleLeft.setDirection(DcMotor.Direction.REVERSE);
         bucket.setDirection(Servo.Direction.REVERSE);
 
     }
@@ -99,16 +99,16 @@ public class ScrimmageTele extends TechtonicsTele {
 
         //Sets the angle servos
         if (gamepad2.right_trigger > 0.1){
-            extAngleLeft.setPosition(1.00);
-            extAngleRight.setPosition(1.00);
+            extAngleLeft.setPower(0.50);
+            extAngleRight.setPower(0.50);
         }
         else if (gamepad2.right_bumper){
-            extAngleLeft.setPosition(0.00);
-            extAngleRight.setPosition(0.00);
+            extAngleLeft.setPower(-0.50);
+            extAngleRight.setPower(-0.50);
         }
         else{
-            extAngleLeft.setPosition(0.50);
-            extAngleRight.setPosition(0.50);
+            extAngleLeft.setPower(0.00);
+            extAngleRight.setPower(0.00);
         }
 
         //Operates the bucket with the DPad on the second gamepad
