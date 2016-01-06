@@ -7,7 +7,7 @@ import com.qualcomm.robotcore.hardware.Servo;
  * Created by colin on 11/18/15.
  */
 
-public class ScrimmageTele extends TechtonicsTele {
+public class TeleOp extends TechtonicsTele {
 
     DcMotor leftMotor;
     DcMotor rightMotor;
