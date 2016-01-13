@@ -25,6 +25,8 @@ public class TeleOp extends TechtonicsTele {
     DcMotor extensionLeft;
     DcMotor extensionRight;
 
+    boolean reverse;
+
     @Override
     public void init(){
         locateMotors();
@@ -46,6 +48,8 @@ public class TeleOp extends TechtonicsTele {
         extAngleLeft.setDirection(DcMotor.Direction.REVERSE);
         bucket.setDirection(Servo.Direction.REVERSE);
 
+        reverse = false;
+
     }
 
     @Override
@@ -54,6 +58,15 @@ public class TeleOp extends TechtonicsTele {
         telemetry.addData("Time = ", getRuntime());
 
         updateMotors();
+
+        if(gamepad1.start){
+            reverse = !reverse;
+        }
+
+        if(reverse == true){
+            rightMotor.setDirection(DcMotor.Direction.REVERSE);
+            leftMotor.setDirection(DcMotor.Direction.REVERSE);
+        }
 
         //Flip the arm clockwise or counterclockwise
         if (gamepad1.right_trigger > 0){
@@ -112,10 +125,10 @@ public class TeleOp extends TechtonicsTele {
         }
 
         //Operates the bucket with the DPad on the second gamepad
-        if(gamepad2.dpad_right){
+        if(gamepad2.dpad_left){
             bucket.setPosition(1.0);
         }
-        else if(gamepad2.dpad_left){
+        else if(gamepad2.dpad_right){
             bucket.setPosition(0.0);
         }
         else{

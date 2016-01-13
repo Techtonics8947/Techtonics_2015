@@ -64,19 +64,19 @@ public class FtcOpModeRegister implements OpModeRegister {
     */
 
     //Techtonics Custom OpMode added to registry
-    manager.register ("TechtonicsTele", TechtonicsTele.class);
-    //manager.register("SensorsTeleop", SensorsTeleop.class);
-    manager.register("Autonomous", Autonomous.class);
-    //manager.register("ScrimmageAuto", ScrimmageAuto.class);
-    //manager.register("Encoders", EncoderAutonomous.class);
-    //manager.register("LineFollowing", LineFollowing.class);
-    //manager.register("BucketDoor", BucketDoor.class);
+    //manager.register ("TechtonicsTele", TechtonicsTele.class);
+
+    manager.register("AutoRed5First", AutoRed5First.class);
+    manager.register("AutoRed10First", AutoRed10First.class);
+    manager.register("AutoBlue5First", AutoBlue5First.class);
+    manager.register("AutoRed5Second", AutoRed5Second.class);
+    manager.register("AutoBlue5Second", AutoBlue5Second.class);
     manager.register("TeleOp", TeleOp.class);
 
     /*
      * Uncomment any of the following lines if you want to register an op mode.
      */
-
+    
     //manager.register("AdafruitRGBExample", AdafruitRGBExample.class);
     //manager.register("MRRGBExample", MRRGBExample.class);
     //manager.register("ColorSensorDriver", ColorSensorDriver.class);
