@@ -1,20 +1,12 @@
 package com.qualcomm.ftcrobotcontroller.opmodes;
 
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-
 import com.qualcomm.robotcore.hardware.DcMotor;
 
 /**
  * Created by Colin Santee on 10/14/15.
  */
 
-public class AutoRed5First extends LinearOpMode{
-
-    DcMotor rightMotor;
-    DcMotor leftMotor;
-
-    DcMotor armLeft;
-    DcMotor armRight;
+public class AutoRed5First extends auto5Base {
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -28,46 +20,8 @@ public class AutoRed5First extends LinearOpMode{
         leftMotor.setDirection(DcMotor.Direction.REVERSE);
         armLeft.setDirection(DcMotor.Direction.REVERSE);
 
-        //Wait for start of round
-        waitForStart();
+        autonomous(Red, NoSleep);
 
-        armLeft.setPower(0.25);  //Rotate out the arm to be used as a "plow"
-        armRight.setPower(0.25);
-        sleep(800);
-        armLeft.setPower(0);
-        armRight.setPower(0);
-
-        //Move forward 4 feet, turn 45 degree
-        setMotors(1);
-        sleep(2200);                        //4 Feet (Not accurate)
-        setMotors(0);
-
-        rightMotor.setPower(1.0);
-        leftMotor.setPower(0);              //45 Degree Turn
-        sleep(500);
-        setMotors(0);
-
-        setMotors(1);
-        sleep(2100);
-        setMotors(0);
-
-        rightMotor.setPower(1.0);
-        leftMotor.setPower(0);
-        sleep(800);
-        setMotors(0);
-
-        setMotors(1);
-        sleep(1300);
-        setMotors(0);
-
-        leftMotor.setPowerFloat();
-        rightMotor.setPowerFloat();
-
-    }
-
-    public void setMotors(double power){
-        leftMotor.setPower(power);
-        rightMotor.setPower(power);
     }
 
 }

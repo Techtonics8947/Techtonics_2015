@@ -19,6 +19,8 @@ public class TeleOp extends TechtonicsTele {
 
     Servo bucket;
 
+    Servo climber;
+
     DcMotor extAngleLeft;
     DcMotor extAngleRight;
 
@@ -37,6 +39,8 @@ public class TeleOp extends TechtonicsTele {
         gripper = hardwareMap.servo.get("servo_gripper");
 
         bucket = hardwareMap.servo.get("servo_bucket");
+
+        climber = hardwareMap.servo.get("servo_climber");
 
         extAngleLeft = hardwareMap.dcMotor.get("angle_left");
         extAngleRight = hardwareMap.dcMotor.get("angle_right");
@@ -58,15 +62,6 @@ public class TeleOp extends TechtonicsTele {
         telemetry.addData("Time = ", getRuntime());
 
         updateMotors();
-
-        if(gamepad1.start){
-            reverse = !reverse;
-        }
-
-        if(reverse == true){
-            rightMotor.setDirection(DcMotor.Direction.REVERSE);
-            leftMotor.setDirection(DcMotor.Direction.REVERSE);
-        }
 
         //Flip the arm clockwise or counterclockwise
         if (gamepad1.right_trigger > 0){
@@ -133,6 +128,10 @@ public class TeleOp extends TechtonicsTele {
         }
         else{
             bucket.setPosition(0.5);
+        }
+
+        if(gamepad2.right_stick_y > 0) {
+            climber.setPosition(Math.abs(gamepad2.right_stick_y));
         }
 
     }
