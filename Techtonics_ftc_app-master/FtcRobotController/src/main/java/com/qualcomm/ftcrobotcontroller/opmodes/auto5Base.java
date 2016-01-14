@@ -10,7 +10,7 @@ public class auto5Base extends LinearOpMode {
 
     DcMotor rightMotor;
     DcMotor leftMotor;
-    
+
     DcMotor armLeft;
     DcMotor armRight;
 
