@@ -142,4 +142,59 @@ public class autoBase extends LinearOpMode {
 
         }
     }
+
+    public void driveForwards(double driveDuration) throws InterruptedException{
+        int startHeading = sensorGyro.getHeading();
+
+
+        double startTime = getRuntime();
+        double runTime = getRuntime() - startTime;
+
+        //telemetry.addData("start ", startTime);
+        //telemetry.addData("runtime ", runTime);
+
+        double rightPower = 1;
+        double leftPower = 1;
+
+        int degreesOff;
+
+        setMotors(1);
+
+        int currentHeading;
+        while(runTime < driveDuration) {
+            currentHeading = sensorGyro.getHeading();
+
+            telemetry.addData("Heading ", currentHeading);
+
+            telemetry.addData("Target ", startHeading);
+
+            // if difference is greater than 100
+            // then if current is less than start
+            // then add 360 to start
+            if (currentHeading != startHeading) {
+                if (((currentHeading - startHeading) > 100) || ((startHeading - currentHeading) > 100)) {
+                    if (currentHeading < startHeading) {
+                        startHeading += 360;
+                    } else {
+                        currentHeading += 360;
+                    }
+                }
+
+                degreesOff = startHeading - currentHeading;
+
+                if (degreesOff > 0) {        //Assuming positive equals turning to the right
+                    leftPower = leftPower - (degreesOff * 0.1);
+                    leftMotor.setPower(leftPower);
+                } else {
+                    rightPower = rightPower + (degreesOff * 0.1);
+                    rightMotor.setPower(rightPower);
+                }
+            }
+            runTime = getRuntime() - startTime;
+
+
+        }
+
+        setMotors(0);
+    }
 }
