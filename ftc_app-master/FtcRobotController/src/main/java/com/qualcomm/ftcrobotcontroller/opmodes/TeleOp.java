@@ -2,7 +2,7 @@ package com.qualcomm.ftcrobotcontroller.opmodes;
 
 import android.util.Log;
 
-import com.qualcomm.hardware.ModernRoboticsI2cGyro;
+import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cGyro;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 
