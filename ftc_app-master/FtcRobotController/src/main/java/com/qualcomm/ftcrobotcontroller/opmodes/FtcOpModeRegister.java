@@ -70,10 +70,10 @@ public class FtcOpModeRegister implements OpModeRegister {
     manager.register("AutoRed5Second", AutoRed5Second.class);
     manager.register("AutoBlue5First", AutoBlue5First.class);
     manager.register("AutoBlue5Second", AutoBlue5Second.class);
-    manager.register("AutoRed10First", AutoRed10First.class);
-    manager.register("AutoRed10Second", AutoRed10Second.class);
-    manager.register("AutoBlue10First", AutoBlue10First.class);
-    manager.register("AutoBlue10Second", AutoBlue10Second.class);
+    //manager.register("AutoRed10First", AutoRed10First.class);
+    //manager.register("AutoRed10Second", AutoRed10Second.class);
+    //manager.register("AutoBlue10First", AutoBlue10First.class);
+    //manager.register("AutoBlue10Second", AutoBlue10Second.class);
     manager.register("AutoDrive", autoDriveTest.class);
 
     manager.register("GyroTest", AutoGyro.class);

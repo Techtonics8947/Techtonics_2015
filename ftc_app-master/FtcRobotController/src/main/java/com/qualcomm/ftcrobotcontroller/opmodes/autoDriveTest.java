@@ -1,5 +1,6 @@
 package com.qualcomm.ftcrobotcontroller.opmodes;
 
+import com.qualcomm.ftccommon.DbgLog;
 import com.qualcomm.hardware.ModernRoboticsI2cGyro;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
@@ -10,26 +11,25 @@ public class autoDriveTest extends autoBase {
 
     @Override
     public void runOpMode() throws InterruptedException {
-
-        leftMotor = hardwareMap.dcMotor.get("left_drive");
-        rightMotor = hardwareMap.dcMotor.get("right_drive");
-
-        armLeft = hardwareMap.dcMotor.get("arm_left");
-        armRight = hardwareMap.dcMotor.get("arm_right");
-
-        sensorGyro = (ModernRoboticsI2cGyro) hardwareMap.gyroSensor.get("gyro");
-
-        leftMotor.setDirection(DcMotor.Direction.REVERSE);
-        armLeft.setDirection(DcMotor.Direction.REVERSE);
-
-        sensorGyro.calibrate();
-
-        while(sensorGyro.isCalibrating()){
-            sleep(100);
+        InitializeHardware();
+        double baselineColor;
+        double drivingColor;
+        baselineColor = sensorLine.getLightDetected();
+        LogMsg("Initial Line Color: " + Double.toString(baselineColor));
+        boolean stopYet = false;
+        setDriveMotors(FULL_POWER);
+        `while (!stopYet){
+            drivingColor = sensorLine.getLightDetected();
+            LogMsg("Initial Line Color: " + Double.toString(drivingColor));
+            if (drivingColor > 0.8)
+                stopYet = true;
+            sleep(50);
         }
+        setDriveMotors(POWER_OFF);
 
-        driveForwards(5);
+        Turn(315);
 
     }
+
 
 }

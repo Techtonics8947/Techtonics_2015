@@ -37,9 +37,9 @@ public class AutoGyro extends autoBase {
         telemetry.addData("Heading ", sensorGyro.getHeading());
         telemetry.addData("Integrated ", sensorGyro.getIntegratedZValue());
 
-        setMotors(1);
+        setDriveMotors(1);
         sleep(250);
-        setMotors(0);
+        setDriveMotors(0);
 
         telemetry.addData("Heading ", sensorGyro.getHeading());
         telemetry.addData("Integrated ", sensorGyro.getIntegratedZValue());
@@ -67,7 +67,7 @@ public class AutoGyro extends autoBase {
 
     }
 
-    private void turn(int target) throws InterruptedException{
+    public void turn(int target) throws InterruptedException{
 
         for (int count = 0; count < 2; count++)
         {
@@ -91,7 +91,7 @@ public class AutoGyro extends autoBase {
             leftMotor.setPower(1.0 * reverse); //1.0
             rightMotor.setPower(-1.0 * reverse); //-1.0
             sleep(timeToTurn); //900
-            setMotors(0); //0
+            setDriveMotors(0); //0
 
             sleep(1000);
         }

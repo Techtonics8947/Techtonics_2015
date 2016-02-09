@@ -11,19 +11,6 @@ public class AutoRed5Second extends autoBase {
 
     @Override
     public void runOpMode() throws InterruptedException {
-
-        leftMotor = hardwareMap.dcMotor.get("left_drive");
-        rightMotor = hardwareMap.dcMotor.get("right_drive");
-
-        armLeft = hardwareMap.dcMotor.get("arm_left");
-        armRight = hardwareMap.dcMotor.get("arm_right");
-
-        sensorGyro = (ModernRoboticsI2cGyro) hardwareMap.gyroSensor.get("gyro");
-
-        leftMotor.setDirection(DcMotor.Direction.REVERSE);
-        armLeft.setDirection(DcMotor.Direction.REVERSE);
-
         autonomous5(Red, Sleep);
-
     }
 }

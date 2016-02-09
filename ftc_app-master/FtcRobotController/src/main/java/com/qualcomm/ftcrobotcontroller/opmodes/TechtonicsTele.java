@@ -1,5 +1,6 @@
 package com.qualcomm.ftcrobotcontroller.opmodes;
 
+import com.qualcomm.ftccommon.DbgLog;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorController;
@@ -30,6 +31,7 @@ public class TechtonicsTele extends OpMode {
         rightMotor = hardwareMap.dcMotor.get("right_drive");
 
         leftMotor.setDirection(DcMotor.Direction.REVERSE);
+        rightMotor.setDirection(DcMotor.Direction.FORWARD);
 
     }
 
@@ -47,6 +49,10 @@ public class TechtonicsTele extends OpMode {
         //Sets the power of the motors with the joystick values
         leftMotor.setPower(leftY);
         rightMotor.setPower(rightY);
+    }
+
+    void LogMsg(String msg) {
+        DbgLog.msg("FTC-TT - " + msg);
     }
 
 }
