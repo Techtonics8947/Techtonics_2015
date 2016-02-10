@@ -1,8 +1,5 @@
 package com.qualcomm.ftcrobotcontroller.opmodes;
 
-import com.qualcomm.ftccommon.DbgLog;
-import com.qualcomm.hardware.ModernRoboticsI2cGyro;
-import com.qualcomm.robotcore.hardware.DcMotor;
 
 /**
  * Created by colin on 1/19/16.
@@ -18,7 +15,7 @@ public class autoDriveTest extends autoBase {
         LogMsg("Initial Line Color: " + Double.toString(baselineColor));
         boolean stopYet = false;
         setDriveMotors(FULL_POWER);
-        `while (!stopYet){
+        while (!stopYet){
             drivingColor = sensorLine.getLightDetected();
             LogMsg("Initial Line Color: " + Double.toString(drivingColor));
             if (drivingColor > 0.8)

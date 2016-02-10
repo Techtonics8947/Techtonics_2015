@@ -15,25 +15,10 @@ public class TeleOp extends TechtonicsTele {
     DcMotor leftMotor;
     DcMotor rightMotor;
 
-    DcMotor armLeft;
-    DcMotor armRight;
-
-    // SERVOS - OLD
-    // 1)  servo_gripper
-    // 2)  servo_bucket - NOT NEEDED
-    // 3)  servo_climber_1
-    // 4)  mountain_assist
-    // 5)  mountain_hanger_1
-    // 6)  mountain_hanger_2
-
-    // SERVOS - NEW
-    // 1)  servo_gripper
-    // 2)  climber_left
-    // 3)  climber_right
-    // 4)  climber_drop
-    // 5)  hanger
+    DcMotor arm;
 
    // Servo gripper;
+    Servo bucket;
     Servo climber_left;
     Servo climber_right;
     Servo climber_drop;
@@ -53,12 +38,11 @@ public class TeleOp extends TechtonicsTele {
     public void init() {
         locateMotors();
 
-        armLeft = hardwareMap.dcMotor.get("arm_left");
-        armRight = hardwareMap.dcMotor.get("arm_right");
+        arm = hardwareMap.dcMotor.get("arm");
 
         //gripper = hardwareMap.servo.get("servo_gripper");
 
-        //bucket = hardwareMap.servo.get("servo_bucket");
+        bucket = hardwareMap.servo.get("servo_bucket");
 
         climber_left = hardwareMap.servo.get("climber_left");
         climber_right = hardwareMap.servo.get("climber_right");
@@ -75,7 +59,7 @@ public class TeleOp extends TechtonicsTele {
 
         mountainAssist = hardwareMap.dcMotor.get("mountain_assist");
 
-        armLeft.setDirection(DcMotor.Direction.REVERSE);
+        arm.setDirection(DcMotor.Direction.REVERSE);
         extAngleLeft.setDirection(DcMotor.Direction.REVERSE);
         FirstTimeRun = true;
     }
@@ -98,15 +82,12 @@ public class TeleOp extends TechtonicsTele {
         //Flip the arm clockwise or counterclockwise
         if (gamepad1.right_bumper) {
             LogMsg("gp1: right trigger - Arm Down");
-            armRight.setPower(0.25);
-            armLeft.setPower(0.25);
+            arm.setPower(0.25);
         } else if (gamepad1.right_trigger > 0.25) {
             LogMsg("gp1: right bumper - Arm Up");
-            armRight.setPower(-0.25);
-            armLeft.setPower(-0.25);
+            arm.setPower(-0.25);
         } else {
-            armRight.setPower(0);
-            armLeft.setPower(0);
+            arm.setPower(0);
         }
 
         /*Sets the gripper Position
@@ -203,7 +184,7 @@ public class TeleOp extends TechtonicsTele {
         }
 
         //Operates the bucket with the DPad on the second gamepad
-        /*if (gamepad2.dpad_left) {
+        if (gamepad2.dpad_left) {
             LogMsg("gp2: DPad - Bucket Left");
             bucket.setPosition(1.0);
         } else if (gamepad2.dpad_right) {
@@ -212,7 +193,6 @@ public class TeleOp extends TechtonicsTele {
         } else {
             bucket.setPosition(0.5);
         }
-        */
     }
     private boolean CheckForButtonStick()
     {
