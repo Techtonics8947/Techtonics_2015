@@ -30,8 +30,6 @@ public class autoBase extends LinearOpMode {
     DcMotor extensionLeft;
     DcMotor extensionRight;
 
-//Jonathan is a better programmer than Colin
-    //Master Programmer was here
     // Sensor is updside down so degrees go clockwise
     // normal protractor would go counter-clockwise which makes this confusing.
     ModernRoboticsI2cGyro sensorGyro;
@@ -46,6 +44,7 @@ public class autoBase extends LinearOpMode {
     final static double FULL_POWER = 1;
     final static double MIN_POWER = .5;
 
+    double baselineColor;
     double TurnTime = 9.5;
     private double startTime = 0;
 
@@ -59,21 +58,21 @@ public class autoBase extends LinearOpMode {
 
     public void autonomous5(int direction, int sleepTime) throws InterruptedException {
         StartUp(sleepTime);
-        DriveStraight(1.5, 0);   //4 Feet (Not accurate)
+        DriveStraight(1.5, 0, false);   //4 Feet (Not accurate)
         double DoubleBlueStep2 = 3.2;
         double DoubleBlueStep3 = 1.6;
         double DoubleRedStep2 = 3.2;
         double DoubleRedStep3 = 1.4;
 
         if(direction == Blue) {
-            DriveStraight(DoubleBlueStep2, Math.abs(direction - 45));   //4 Feet (Not accurate)
+            DriveStraight(DoubleBlueStep2, Math.abs(direction - 45), false);   //4 Feet (Not accurate)
             // Would be nice to add an Optical Distance sensor so we know how far to drive.
-            DriveStraight(DoubleBlueStep3, Math.abs(direction - 90));   //4 Feet (Not accurate)
+            DriveStraight(DoubleBlueStep3, Math.abs(direction - 90), false);   //4 Feet (Not accurate)
         }
         if(direction == Red){
-            DriveStraight(DoubleRedStep2, Math.abs(direction - 45));   //4 Feet (Not accurate)
+            DriveStraight(DoubleRedStep2, Math.abs(direction - 45), false);   //4 Feet (Not accurate)
             // Would be nice to add an Optical Distance sensor so we know how far to drive.
-            DriveStraight(DoubleRedStep3, Math.abs(direction - 90));   //4 Feet (Not accurate)
+            DriveStraight(DoubleRedStep3, Math.abs(direction - 90), false);   //4 Feet (Not accurate)
         }
 
         DropClimbers();
@@ -132,6 +131,20 @@ public class autoBase extends LinearOpMode {
         rightMotor.setPowerFloat();
     }
 
+    public void autonomousLine(int direction, int sleepTime) throws InterruptedException {
+        StartUp(sleepTime);
+
+        //Drive along side of mountain until first red/blue line
+        DriveStraight(8000, Math.abs(direction - 315), true);
+        //Drive within floor goal until line centered on beacon
+        DriveStraight(4000, Math.abs(direction - 45), true);
+        //Drive up to the beacon
+        DriveStraight(2000, Math.abs(direction - 45), false);
+
+        DropClimbers();
+
+    }
+
     private void StartUp(int SleepTime) throws InterruptedException {
         InitializeHardware();
         LogMsg("Waiting for start...");
@@ -163,7 +176,10 @@ public class autoBase extends LinearOpMode {
         armRight = hardwareMap.dcMotor.get("arm_right");
 
         sensorGyro = (ModernRoboticsI2cGyro) hardwareMap.gyroSensor.get("gyro");
+
         sensorLine = (ModernRoboticsAnalogOpticalDistanceSensor) hardwareMap.opticalDistanceSensor.get("line_sensor");
+        baselineColor = sensorLine.getLightDetected();
+        LogMsg("Initial Line Color: " + Double.toString(baselineColor));
 
         rightMotor.setDirection(DcMotor.Direction.REVERSE);
         armLeft.setDirection(DcMotor.Direction.REVERSE);
@@ -211,7 +227,7 @@ public class autoBase extends LinearOpMode {
         sleep(250);
     }
 
-    public void DriveStraight(double DriveDuration, int TargetHeading) throws InterruptedException {
+    public void DriveStraight(double DriveDuration, int TargetHeading, boolean driveToLine) throws InterruptedException {
 
         telemetry.addData("Drive Straight... Heading: ", Integer.toString(TargetHeading));
         telemetry.addData("Drive Straight... Duration: ", Double.toString(DriveDuration));
@@ -231,7 +247,8 @@ public class autoBase extends LinearOpMode {
         setDriveMotors(FULL_POWER);
 
         int currentHeading;
-        while (runTime < DriveDuration) {
+        boolean stopYet = false;
+        while ((runTime < DriveDuration) && stopYet == false) {
             currentHeading = sensorGyro.getHeading();
 
             LogMsg("Drive Straight-Heading: " + Integer.toString(currentHeading));
@@ -262,11 +279,26 @@ public class autoBase extends LinearOpMode {
                 leftMotor.setPower(leftPower);
                 rightMotor.setPower(rightPower);
             }
-            sleep(100);
+            waitOneFullHardwareCycle();
             runTime = getRuntime() - driveStart;
+
+            // checking for line here
+            if(driveToLine) {
+                stopYet = checkForNewColor(stopYet);
+            }
         }
+
         setDriveMotors(POWER_OFF);
         LogMsg("Drive Straight Forward-Runtime: " + Double.toString(runTime));
+    }
+
+    public boolean checkForNewColor(boolean stopYet){
+        double drivingColor = sensorLine.getLightDetected();
+        LogMsg("Line Color Detected: " + Double.toString(drivingColor));
+        if (drivingColor > 0.05) {
+            stopYet = true;
+        }
+        return stopYet;
     }
 
     public void DriveBackwards(double DriveDuration, int TargetHeading) throws InterruptedException {

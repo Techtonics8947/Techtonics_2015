@@ -9,6 +9,7 @@ public class autoDriveTest extends autoBase {
     @Override
     public void runOpMode() throws InterruptedException {
         InitializeHardware();
+
         double baselineColor;
         double drivingColor;
         baselineColor = sensorLine.getLightDetected();
@@ -22,6 +23,7 @@ public class autoDriveTest extends autoBase {
                 stopYet = true;
             sleep(50);
         }
+
         setDriveMotors(POWER_OFF);
 
         Turn(315);

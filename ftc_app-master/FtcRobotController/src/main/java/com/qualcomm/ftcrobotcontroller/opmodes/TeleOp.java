@@ -82,10 +82,10 @@ public class TeleOp extends TechtonicsTele {
         //Flip the arm clockwise or counterclockwise
         if (gamepad1.right_bumper) {
             LogMsg("gp1: right trigger - Arm Down");
-            arm.setPower(0.25);
+            arm.setPower(0.40);
         } else if (gamepad1.right_trigger > 0.25) {
             LogMsg("gp1: right bumper - Arm Up");
-            arm.setPower(-0.25);
+            arm.setPower(-0.40);
         } else {
             arm.setPower(0);
         }
@@ -108,33 +108,22 @@ public class TeleOp extends TechtonicsTele {
         double endTime;
         if (gamepad2.right_bumper) {
             LogMsg("gp2: right_bumper - Lower mountain_assist");
-            startTime = getRuntime();
-            endTime = startTime + timeToRun;
-            if(getRuntime() < endTime){
-                mountainAssist.setPower(0.15);
-            }
-            else{
-                mountainAssist.setPower(0);
-                mountainAssist.setPowerFloat();
-            }
+            mountainAssist.setPower(0.25);
+        }
+        else if (gamepad2.right_trigger > 0.25){
+            LogMsg("gp2: right_trigger - Raise mountain_assist");
+            mountainAssist.setPower(-0.25);
         }
         else {
-            startTime = getRuntime();
-            endTime = startTime + timeToRun;
-            if(getRuntime() < endTime){
-                mountainAssist.setPower(-0.15);
-            }
-            else{
-                mountainAssist.setPower(0);
-                mountainAssist.setPowerFloat();
-            }
+            mountainAssist.setPower(0);
+            mountainAssist.setPowerFloat();
         }
 
         if (gamepad1.y) {
             LogMsg("gp1: Y Button - climber dropper");
-            climber_drop.setPosition(0);
-        } else {
             climber_drop.setPosition(1.0);
+        } else {
+            climber_drop.setPosition(0);
         }
 
         if(gamepad1.x) {
@@ -168,14 +157,14 @@ public class TeleOp extends TechtonicsTele {
 
         //Sets the angle servos
         double anglePress = gamepad2.right_stick_y;
-        if (anglePress > .25) {
+        if (anglePress < -.25) {
             LogMsg("gp2: right joysick - Angle Up");
-            if (anglePress > 0.6) anglePress = 0.6;
+            if (anglePress < -0.6) anglePress = -0.6;
             extAngleLeft.setPower(anglePress);
             extAngleRight.setPower(anglePress);
-        } else if (anglePress < -0.25) {
+        } else if (anglePress > 0.25) {
             LogMsg("gp2: right joysick - Angle Down");
-            if (anglePress < -0.6) anglePress = -0.6;
+            if (anglePress > 0.6) anglePress = 0.6;
             extAngleLeft.setPower(anglePress);
             extAngleRight.setPower(anglePress);
         } else {
