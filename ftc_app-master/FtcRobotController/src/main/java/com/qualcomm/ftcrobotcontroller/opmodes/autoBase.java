@@ -4,6 +4,7 @@ import android.util.Log;
 
 import com.qualcomm.ftccommon.DbgLog;
 import com.qualcomm.hardware.modernrobotics.ModernRoboticsAnalogOpticalDistanceSensor;
+import com.qualcomm.hardware.modernrobotics.ModernRoboticsDigitalTouchSensor;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cGyro;
@@ -22,8 +23,7 @@ public class autoBase extends LinearOpMode {
     DcMotor rightMotor;
     DcMotor leftMotor;
 
-    DcMotor armLeft;
-    DcMotor armRight;
+    DcMotor arm;
 
     Servo climber;
     //  Need to add Angle, and Assist
@@ -34,6 +34,7 @@ public class autoBase extends LinearOpMode {
     // normal protractor would go counter-clockwise which makes this confusing.
     ModernRoboticsI2cGyro sensorGyro;
     ModernRoboticsAnalogOpticalDistanceSensor sensorLine;
+    ModernRoboticsDigitalTouchSensor sensorTouch;
 
     final static int Red = 0;
     final static int Blue = 360;
@@ -41,7 +42,7 @@ public class autoBase extends LinearOpMode {
     final static int NoSleep = 0;
 
     final static double POWER_OFF = 0;
-    final static double FULL_POWER = 1;
+    final static double FULL_POWER = 0.8;
     final static double MIN_POWER = .5;
 
     double baselineColor;
@@ -132,14 +133,24 @@ public class autoBase extends LinearOpMode {
     }
 
     public void autonomousLine(int direction, int sleepTime) throws InterruptedException {
+
         StartUp(sleepTime);
 
+        touchToContinue();
+
         //Drive along side of mountain until first red/blue line
-        DriveStraight(8000, Math.abs(direction - 315), true);
+        DriveStraight(8000, 0, true);
+
+        touchToContinue();
+
         //Drive within floor goal until line centered on beacon
-        DriveStraight(4000, Math.abs(direction - 45), true);
-        //Drive up to the beacon
+        DriveStraight(4000, Math.abs(direction - 315), true);
+
+        touchToContinue();
+
         DriveStraight(2000, Math.abs(direction - 45), false);
+
+        touchToContinue();
 
         DropClimbers();
 
@@ -152,11 +163,15 @@ public class autoBase extends LinearOpMode {
         startTime = getRuntime();
         LogMsg("Starting!   Start Time: " + Double.toString(startTime));
 
-        // put arm down
-        MoveArm(true);
-
         // pause for other driver
         sleep(SleepTime);
+
+        //Drive Forwards
+        DriveStraight(200, 0, false);
+        DriveBackwards(200, 0);
+
+        // put arm down
+        MoveArm(true);
     }
 
     public void InitializeHardware() throws InterruptedException {
@@ -172,17 +187,18 @@ public class autoBase extends LinearOpMode {
             DbgLog.error("FTC-TT - Drive Motors initializion error.");
         }
 
-        armLeft = hardwareMap.dcMotor.get("arm_left");
-        armRight = hardwareMap.dcMotor.get("arm_right");
+        arm = hardwareMap.dcMotor.get("arm");
 
         sensorGyro = (ModernRoboticsI2cGyro) hardwareMap.gyroSensor.get("gyro");
 
-        sensorLine = (ModernRoboticsAnalogOpticalDistanceSensor) hardwareMap.opticalDistanceSensor.get("line_sensor");
+        sensorLine = (ModernRoboticsAnalogOpticalDistanceSensor) hardwareMap.opticalDistanceSensor.get("line");
         baselineColor = sensorLine.getLightDetected();
         LogMsg("Initial Line Color: " + Double.toString(baselineColor));
 
+        sensorTouch = (ModernRoboticsDigitalTouchSensor) hardwareMap.touchSensor.get("touch");
+
         rightMotor.setDirection(DcMotor.Direction.REVERSE);
-        armLeft.setDirection(DcMotor.Direction.REVERSE);
+        arm.setDirection(DcMotor.Direction.REVERSE);
 
         extensionLeft = hardwareMap.dcMotor.get("extension_left");
         extensionRight = hardwareMap.dcMotor.get("extension_right");
@@ -225,6 +241,21 @@ public class autoBase extends LinearOpMode {
         }
         setDriveMotors(0);
         sleep(250);
+    }
+
+    public void touchToContinue() throws InterruptedException{
+        boolean cont = false;
+
+        telemetry.addData("Touch To Continue...", 0);
+        while(cont == false){
+
+            sleep(10);
+            if(sensorTouch.isPressed()){
+                cont = true;
+            }
+
+        }
+
     }
 
     public void DriveStraight(double DriveDuration, int TargetHeading, boolean driveToLine) throws InterruptedException {
@@ -406,16 +437,15 @@ public class autoBase extends LinearOpMode {
     private void MoveArm(boolean Down) throws InterruptedException {
         if (Down) LogMsg("MoveArm - DOWN");
         else LogMsg("MoveArm - UP");
-        int reverse = -1;
+        int reverse = 1;
         int sleepTime = 1000;
         if (Down) {
-            reverse = 1;
-            sleepTime = 750;
+            reverse = -1;
+            sleepTime = 700;
         }
-        setArmMotors(0.25 * reverse);
+        setArmMotors(0.45 * reverse);
         sleep(sleepTime);
-        armLeft.setPowerFloat();
-        armRight.setPowerFloat();
+        arm.setPowerFloat();
     }
 
     private void DropClimbers() throws InterruptedException {
@@ -427,8 +457,7 @@ public class autoBase extends LinearOpMode {
 
     private void setArmMotors(double power) {
         LogMsg("SetArmMotors: " + Double.toString(power));
-        armLeft.setPower(power);
-        armRight.setPower(power);
+        arm.setPower(power);
     }
 
     public void setDriveMotors(double power) {

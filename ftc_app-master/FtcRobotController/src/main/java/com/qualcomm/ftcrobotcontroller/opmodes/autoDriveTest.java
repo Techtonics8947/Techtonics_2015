@@ -19,8 +19,9 @@ public class autoDriveTest extends autoBase {
         while (!stopYet){
             drivingColor = sensorLine.getLightDetected();
             LogMsg("Initial Line Color: " + Double.toString(drivingColor));
-            if (drivingColor > 0.8)
+            if (drivingColor >= 0.1) {
                 stopYet = true;
+            }
             sleep(50);
         }
 

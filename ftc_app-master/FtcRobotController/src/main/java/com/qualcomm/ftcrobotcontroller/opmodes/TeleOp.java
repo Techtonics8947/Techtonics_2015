@@ -2,7 +2,9 @@ package com.qualcomm.ftcrobotcontroller.opmodes;
 
 import android.util.Log;
 
+import com.qualcomm.hardware.modernrobotics.ModernRoboticsAnalogOpticalDistanceSensor;
 import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cGyro;
+import com.qualcomm.hardware.modernrobotics.ModernRoboticsDigitalTouchSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 
@@ -23,9 +25,14 @@ public class TeleOp extends TechtonicsTele {
     Servo climber_right;
     Servo climber_drop;
 
+    //Servo maRotate;
+    //Servo maAngle;
+
     DcMotor mountainAssist;
 
     ModernRoboticsI2cGyro sensorGyro;
+    ModernRoboticsAnalogOpticalDistanceSensor sensorLine;
+    ModernRoboticsDigitalTouchSensor sensorTouch;
 
     DcMotor extAngleLeft;
     DcMotor extAngleRight;
@@ -49,7 +56,12 @@ public class TeleOp extends TechtonicsTele {
 
         sensorGyro = (ModernRoboticsI2cGyro) hardwareMap.gyroSensor.get("gyro");
 
+        sensorLine = (ModernRoboticsAnalogOpticalDistanceSensor) hardwareMap.opticalDistanceSensor.get("line");
+
         climber_drop = hardwareMap.servo.get("climber_drop");
+
+        //maAngle = hardwareMap.servo.get("maAngle");
+        //maRotate = hardwareMap.servo.get("maRotate");
 
         extAngleLeft = hardwareMap.dcMotor.get("angle_left");
         extAngleRight = hardwareMap.dcMotor.get("angle_right");
@@ -82,7 +94,7 @@ public class TeleOp extends TechtonicsTele {
         //Flip the arm clockwise or counterclockwise
         if (gamepad1.right_bumper) {
             LogMsg("gp1: right trigger - Arm Down");
-            arm.setPower(0.40);
+            arm.setPower(0.55);
         } else if (gamepad1.right_trigger > 0.25) {
             LogMsg("gp1: right bumper - Arm Up");
             arm.setPower(-0.40);
@@ -116,7 +128,6 @@ public class TeleOp extends TechtonicsTele {
         }
         else {
             mountainAssist.setPower(0);
-            mountainAssist.setPowerFloat();
         }
 
         if (gamepad1.y) {
@@ -127,18 +138,42 @@ public class TeleOp extends TechtonicsTele {
         }
 
         if(gamepad1.x) {
-            climber_left.setPosition(0.6);
-        }
-        if(gamepad1.dpad_left){
             climber_left.setPosition(0);
         }
-
-        if(gamepad1.dpad_right){
-            climber_right.setPosition(1);
+        else if(gamepad1.b){
+            climber_left.setPosition(1.0);
         }
-        if (gamepad1.b) {
+        else{
+            climber_left.setPosition(0.5);
+        }
+
+        if(gamepad1.dpad_left){
+            climber_right.setPosition(0);
+        }
+        else if (gamepad1.dpad_right) {
+            climber_right.setPosition(1.0);
+        }
+        else{
             climber_right.setPosition(0.5);
         }
+
+        /*
+        if(gamepad2.dpad_right){
+            maRotate.setPosition(1.0);
+        }
+        else if(gamepad2.dpad_left){
+            maAngle.setPosition(0.0);
+        }
+        else{
+            maRotate.setPosition(0.5);
+        }
+
+        if(gamepad2.dpad_up){
+            maAngle.setPosition(0.98);
+        }
+        else if(gamepad2.dpad_down){
+            maAngle.setPosition(0.02);
+        } */
 
         //Sets extension motor with gamepad2 left stick
         double extensionPress = -gamepad2.left_stick_y;
@@ -182,7 +217,12 @@ public class TeleOp extends TechtonicsTele {
         } else {
             bucket.setPosition(0.5);
         }
+
+        double light = sensorLine.getLightDetected();
+        telemetry.addData("Light = ", light);
+
     }
+
     private boolean CheckForButtonStick()
     {
         boolean ErrorFound = false;
