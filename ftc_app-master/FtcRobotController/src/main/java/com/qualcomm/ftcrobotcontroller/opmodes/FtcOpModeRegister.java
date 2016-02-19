@@ -66,10 +66,10 @@ public class FtcOpModeRegister implements OpModeRegister {
     //Techtonics Custom OpMode added to registry
     //manager.register ("TechtonicsTele", TechtonicsTele.class);
 
-    manager.register("AutoRedLineFirst", AutoRed5First.class);
-    manager.register("AutoRedLineSecond", AutoRed5Second.class);
-    manager.register("AutoBlueLineFirst", AutoBlue5First.class);
-    manager.register("AutoBlueLineSecond", AutoBlue5Second.class);
+    manager.register("AutoRedLineFirst", AutoRedLineFirst.class);
+    manager.register("AutoRedLineSecond", AutoRedLineSecond.class);
+    manager.register("AutoBlueLineFirst", AutoBlueLineFirst.class);
+    manager.register("AutoBlueLineSecond", AutoBlueLineSecond.class);
     //manager.register("AutoRed10First", AutoRed10First.class);
     //manager.register("AutoRed10Second", AutoRed10Second.class);
     //manager.register("AutoBlue10First", AutoBlue10First.class);

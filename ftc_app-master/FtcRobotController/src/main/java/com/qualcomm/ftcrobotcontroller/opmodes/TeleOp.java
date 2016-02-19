@@ -19,7 +19,7 @@ public class TeleOp extends TechtonicsTele {
 
     DcMotor arm;
 
-   // Servo gripper;
+    Servo gripper;
     Servo bucket;
     Servo climber_left;
     Servo climber_right;
@@ -47,7 +47,7 @@ public class TeleOp extends TechtonicsTele {
 
         arm = hardwareMap.dcMotor.get("arm");
 
-        //gripper = hardwareMap.servo.get("servo_gripper");
+        gripper = hardwareMap.servo.get("servo_gripper");
 
         bucket = hardwareMap.servo.get("servo_bucket");
 
@@ -102,7 +102,7 @@ public class TeleOp extends TechtonicsTele {
             arm.setPower(0);
         }
 
-        /*Sets the gripper Position
+        //Sets the gripper Position
         if (gamepad1.left_trigger > 0.25) {
             LogMsg("gp1: left trigger - Gripper Close");
             gripper.setPosition(1);      //Set to open position
@@ -111,7 +111,7 @@ public class TeleOp extends TechtonicsTele {
             gripper.setPosition(0);     //Set to closed position
         } else {
             gripper.setPosition(0.50);
-        } */
+        }
 
 
         //controls the position of the mountain assist

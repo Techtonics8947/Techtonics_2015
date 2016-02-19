@@ -49,6 +49,8 @@ public class autoBase extends LinearOpMode {
     double TurnTime = 9.5;
     private double startTime = 0;
 
+    int touchCount = 1;
+
     @Override
     public void runOpMode() throws InterruptedException {
     }
@@ -134,23 +136,42 @@ public class autoBase extends LinearOpMode {
 
     public void autonomousLine(int direction, int sleepTime) throws InterruptedException {
 
+        boolean testing = true;
+
+        double batLvl = 1;    //BatLvl 1.0 == ~11.7v Charged Battery
+                                //BatLvl 0.8 == ~Full Battery (>13v)
+
         StartUp(sleepTime);
 
-        touchToContinue();
+        touchToContinue(testing);
+
+        //LogMsg("********** DEBUG 1 ***************");
 
         //Drive along side of mountain until first red/blue line
-        DriveStraight(8000, 0, true);
+        DriveStraight(4.2 * batLvl, 0, false);
 
-        touchToContinue();
+        //LogMsg("********** DEBUG 2 ***************");
+
+        touchToContinue(testing);
 
         //Drive within floor goal until line centered on beacon
-        DriveStraight(4000, Math.abs(direction - 315), true);
+        DriveStraight(1.8 * batLvl, Math.abs(direction - 315), true);
 
-        touchToContinue();
+        touchToContinue(testing);
 
-        DriveStraight(2000, Math.abs(direction - 45), false);
+        DriveStraight(0.8 * batLvl, Math.abs(direction - 315), false);
 
-        touchToContinue();
+        touchToContinue(testing);
+
+        DriveBackwards(1.2 * batLvl, Math.abs(direction - 315));
+
+        touchToContinue(testing);
+
+        MoveArm(false);
+
+        DriveStraight(0.4 * batLvl, Math.abs(direction - 45), false);
+
+        touchToContinue(testing);
 
         DropClimbers();
 
@@ -166,12 +187,18 @@ public class autoBase extends LinearOpMode {
         // pause for other driver
         sleep(SleepTime);
 
+        LogMsg("**************** DRIVE STRAIGHT *********************");
         //Drive Forwards
-        DriveStraight(200, 0, false);
-        DriveBackwards(200, 0);
+        DriveStraight(1.0, 0, false);
+
+        LogMsg("******************* STOPPED DRIVING STRAIGHT ***************");
+
+        DriveBackwards(0.8, 0);
 
         // put arm down
         MoveArm(true);
+
+        DriveBackwards(0.2, 0);
     }
 
     public void InitializeHardware() throws InterruptedException {
@@ -243,17 +270,20 @@ public class autoBase extends LinearOpMode {
         sleep(250);
     }
 
-    public void touchToContinue() throws InterruptedException{
-        boolean cont = false;
+    public void touchToContinue(boolean testing) throws InterruptedException{
 
-        telemetry.addData("Touch To Continue...", 0);
-        while(cont == false){
 
-            sleep(10);
-            if(sensorTouch.isPressed()){
-                cont = true;
+        LogMsg("************ TOUCH TO CONTINUE: " + touchCount + " ************");
+        if(testing) {
+            boolean cont = false;
+            telemetry.addData("Touch To Continue...", touchCount);
+            while (cont == false) {
+                sleep(10);
+                if (sensorTouch.isPressed()) {
+                    cont = true;
+                }
             }
-
+            touchCount++;
         }
 
     }
@@ -262,6 +292,8 @@ public class autoBase extends LinearOpMode {
 
         telemetry.addData("Drive Straight... Heading: ", Integer.toString(TargetHeading));
         telemetry.addData("Drive Straight... Duration: ", Double.toString(DriveDuration));
+
+        LogMsg("********* DRIVE DURATION: " + Double.toString(DriveDuration) + "************");
 
         LogMsg("Drive Straight... Turning " + Integer.toString(TargetHeading));
         Turn(TargetHeading);
@@ -282,9 +314,11 @@ public class autoBase extends LinearOpMode {
         while ((runTime < DriveDuration) && stopYet == false) {
             currentHeading = sensorGyro.getHeading();
 
-            LogMsg("Drive Straight-Heading: " + Integer.toString(currentHeading));
+            LogMsg("Drive Straight-Heading: " + Integer.toString(currentHeading) + " Run Time: " + Double.toString(runTime));
 
             degreesOff = CalcDegreesOff(TargetHeading, currentHeading);
+
+            LogMsg("Drive Straight-Degrees Off: " + Integer.toString(degreesOff));
 
             if (degreesOff > 0) {
 
@@ -313,6 +347,9 @@ public class autoBase extends LinearOpMode {
             waitOneFullHardwareCycle();
             runTime = getRuntime() - driveStart;
 
+            double drivingColor = sensorLine.getLightDetected();
+            LogMsg("Line Color Detected: " + Double.toString(drivingColor));
+
             // checking for line here
             if(driveToLine) {
                 stopYet = checkForNewColor(stopYet);
@@ -326,8 +363,9 @@ public class autoBase extends LinearOpMode {
     public boolean checkForNewColor(boolean stopYet){
         double drivingColor = sensorLine.getLightDetected();
         LogMsg("Line Color Detected: " + Double.toString(drivingColor));
-        if (drivingColor > 0.05) {
+        if (drivingColor >= 0.1) {
             stopYet = true;
+            LogMsg("************** WE FOUND THE LINE! *******************");
         }
         return stopYet;
     }
@@ -438,14 +476,23 @@ public class autoBase extends LinearOpMode {
         if (Down) LogMsg("MoveArm - DOWN");
         else LogMsg("MoveArm - UP");
         int reverse = 1;
-        int sleepTime = 1000;
+        int sleepTime;
         if (Down) {
             reverse = -1;
-            sleepTime = 700;
+            setArmMotors(0.35 * reverse);
+            sleep(350);
+            setArmMotors(0.2 * reverse);
+            sleep(350);
+            arm.setPowerFloat();
         }
-        setArmMotors(0.45 * reverse);
-        sleep(sleepTime);
-        arm.setPowerFloat();
+        else{
+            setArmMotors(0.4 * reverse);
+            sleep(500);
+            setArmMotors(0.3 * reverse);
+            sleep(500);
+            arm.setPowerFloat();
+        }
+
     }
 
     private void DropClimbers() throws InterruptedException {

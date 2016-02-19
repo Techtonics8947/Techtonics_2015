@@ -7,6 +7,7 @@ public class AutoBlueLineFirst extends autoBase {
 
     @Override
     public void runOpMode() throws InterruptedException{
+        LogMsg("***************** LAUNCHED OPMODE ************************");
         autonomousLine(Blue, NoSleep);
     }
 
