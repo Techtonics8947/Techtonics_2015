@@ -136,21 +136,17 @@ public class autoBase extends LinearOpMode {
 
     public void autonomousLine(int direction, int sleepTime) throws InterruptedException {
 
-        boolean testing = true;
+        boolean testing = false;
 
         double batLvl = 1;    //BatLvl 1.0 == ~11.7v Charged Battery
-                                //BatLvl 0.8 == ~Full Battery (>13v)
+                              //BatLvl 0.8 == ~Full Battery (>13v)
 
         StartUp(sleepTime);
 
         touchToContinue(testing);
 
-        //LogMsg("********** DEBUG 1 ***************");
-
         //Drive along side of mountain until first red/blue line
-        DriveStraight(4.2 * batLvl, 0, false);
-
-        //LogMsg("********** DEBUG 2 ***************");
+        DriveStraight(4.5 * batLvl, 0, false);
 
         touchToContinue(testing);
 
@@ -163,7 +159,12 @@ public class autoBase extends LinearOpMode {
 
         touchToContinue(testing);
 
-        DriveBackwards(1.2 * batLvl, Math.abs(direction - 315));
+        if(direction == Red){
+            DriveBackwards(0.8 * batLvl, Math.abs(direction - 315));
+        }
+        else {
+            DriveBackwards(1.2 * batLvl, Math.abs(direction - 315));
+        }
 
         touchToContinue(testing);
 
@@ -173,7 +174,9 @@ public class autoBase extends LinearOpMode {
 
         touchToContinue(testing);
 
-        DropClimbers();
+        if(sleepTime == 0){
+            DropClimbers();
+        }
 
     }
 
